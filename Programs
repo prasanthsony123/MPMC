@@ -1,0 +1,92 @@
+#Addition 8085   # 8 bits
+
+LDA 8500
+MOV B, A
+LDA 8501
+ADD B
+STA 8502
+RST 1
+
+#Addition 8086  16 bits
+
+MOV AL, [500]
+MOV BL, [501]
+ADD AL, BL
+DAA
+MOV [600], AL
+MOV AL, 00
+ADC AL, AL
+MOV [601], AL
+HLT
+END
+
+#Subtraction  8085   # 8 bits
+
+LDA 8500
+MOV B, A
+LDA 8501
+SUB B
+STA 8502
+RST 1
+
+#Subtraction  8086   # 16 bits
+
+MOV AL, [500]
+MOV BL, [501]
+SUB AL, BL
+DAA
+MOV [600], AL
+MOV AL, 00
+ADC AL, AL
+MOV [601], AL
+HLT
+END
+
+#multiplication 8085 # 8 bits
+
+LDA 8500
+MOV B, A
+LDA 8501
+MOV C, A
+XRA A   
+LOOP: ADD B
+DCR C
+JNZ LOOP
+STA 8502
+RST 1
+
+#Multiplication 8086   # 16 bits
+
+MOV SI, 500
+MOV DI, 600
+MOV AL, [SI]
+INC SI
+MOV BL, [SI]
+MUL BL
+MOV [DI],AX
+HLT
+
+# division 8085 # 8 bits
+LDA 8501
+MOV B, A
+LDA 8500
+MVI C,00
+LOOP: CMP B
+JC LOOP1
+SUB B
+INR C
+JMP LOOP
+LOOP1: STA 8502
+MOV A, C
+STA 8502
+RST 1
+
+#Division 8086   # 16 bits
+MOV SI, 500
+MOV DI, 600
+MOV BL, [SI]
+INC SI
+MOV AX, [SI]
+DIV BL
+MOV [DI],AX
+HLT
